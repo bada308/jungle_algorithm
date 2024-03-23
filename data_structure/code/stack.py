@@ -10,6 +10,7 @@ class Stack:
     def push(self, data):
         if self.top is None:
             self.top = Node(data)
+            return
         new_node = Node(data)
         new_node.next = self.top
         self.top = new_node
