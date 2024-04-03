@@ -16,6 +16,7 @@ def bfs(graph, node):
             if not v in visited:
                 visited.add(v)
                 queue.append(v)
+    
     return res
 
 print("무방향 그래프의 너비 우선 탐색")
