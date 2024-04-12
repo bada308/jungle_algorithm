@@ -7,15 +7,18 @@ import sys
 from collections import deque
 input = sys.stdin.readline
 
+
 def get_remove():
     result = 0
     for e in exist:
+        print(use_info, use_info[e])
         if not use_info[e]:
             return e
         else:
             if use_info[result][0] < use_info[e][0]:
                 result = e
     return result
+
 
 n, k = map(int, input().split())
 use_info = [deque() for _ in range(k+1)]
