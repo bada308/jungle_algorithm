@@ -10,39 +10,30 @@ table = [list(map(int, input().split())) for __ in range(n)]
 answer = int(1e8)
 
 
-def back(before, start_team):
+def calc_score(team):
+    score = 0
+    for i in team:
+        for j in team:
+            score += table[i][j]
+    return score
+
+
+def backtrack(before, start_team):
     global answer
+
     if before == n-1:
         return
+
     if len(start_team) == n // 2:
-        answer = min(answer, check(start_team))
+        link_team = set(range(n)) - start_team
+        start_score = calc_score(start_team)
+        link_score = calc_score(link_team)
+        answer = min(answer, abs(start_score - link_score))
         return
-    back(before + 1, start_team)
-    start_team.add(before + 1)
-    back(before+1, start_team)
-    start_team.remove(before + 1)
+
+    backtrack(before + 1, start_team)
+    backtrack(before + 1, start_team | {before + 1})
 
 
-def check(start_team):
-    link_team = set([i for i in range(n)]) - start_team
-    start_sum, link_sum = 0, 0
-
-    for j in range(n):
-        if j in start_team:
-            for k in range(n):
-                if j == k:
-                    continue
-                if k in start_team:
-                    start_sum += table[j][k]
-        else:
-            for k in range(n):
-                if j == k:
-                    continue
-                if k in link_team:
-                    link_sum += table[j][k]
-
-    return abs(start_sum - link_sum)
-
-
-back(-1, set())
+backtrack(-1, set())
 print(answer)
